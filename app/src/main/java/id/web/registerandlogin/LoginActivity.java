@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_login;
     private TextView link_register;
     private ProgressBar loading;
-    private static String URL_LOGIN = "http://192.168.10.125/login/login.php";
+    private static String URL_LOGIN = "http://206.189.6.93:8087/oki/login.php";
     SessionManager sessionManager;
 
 
@@ -45,8 +45,8 @@ public class LoginActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
 
         loading = findViewById(R.id.loading);
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
+        email = findViewById(R.id.ed_email);
+        password = findViewById(R.id.ed_password);
         btn_login = findViewById(R.id.btn_login);
         link_register = findViewById(R.id.link_register);
 

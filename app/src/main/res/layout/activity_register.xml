@@ -7,15 +7,19 @@
     android:orientation="vertical"
     android:paddingLeft="30dp"
     android:paddingRight="30dp"
-    android:paddingTop="80dp"
+    android:paddingTop="10dp"
     android:background="@color/colorPrimary2"
     tools:context=".RegisterActivity">
+
+
+
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
-            android:id="@+id/name"
+            android:id="@+id/ed_name"
             android:hint="Name"
             android:inputType="textPersonName"
             android:textColor="@color/colorText"
@@ -27,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/ed_email"
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:textColor="@color/colorText"
@@ -40,7 +44,7 @@
         android:layout_height="wrap_content"
         app:passwordToggleEnabled="true">
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/ed_password"
             android:hint="Password"
             android:inputType="textPassword"
             android:textColor="@color/colorText"
@@ -53,7 +57,7 @@
         android:layout_height="wrap_content"
         app:passwordToggleEnabled="true">
         <EditText
-            android:id="@+id/c_password"
+            android:id="@+id/ed_c_password"
             android:hint="Confirm Password"
             android:inputType="textPassword"
             android:textColor="@color/colorText"
@@ -76,5 +80,7 @@
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="55dp"/>
+
+
 
 </LinearLayout>

@@ -1,9 +1,18 @@
 package id.web.registerandlogin;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.text.TextUtils;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,15 +31,20 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class RegisterActivity extends AppCompatActivity {
-    private EditText name, email, password, c_password;
+    private EditText ed_name, ed_email, ed_password, ed_c_password;
     private Button btn_regist;
     private ProgressBar loading;
-    private static String URL_REGIST = "http://192.168.10.125/login/register.php";
+    CircleImageView profile_image;
+    private static String URL_REGIST = "http://206.189.6.93:8087/oki/register.php";
+
 
 
 
@@ -40,11 +54,12 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         loading = findViewById(R.id.loading);
-        name = findViewById(R.id.name);
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
-        c_password = findViewById(R.id.c_password);
+        ed_name = findViewById(R.id.ed_name);
+        ed_email = findViewById(R.id.ed_email);
+        ed_password = findViewById(R.id.ed_password);
+        ed_c_password = findViewById(R.id.ed_c_password);
         btn_regist = findViewById(R.id.btn_regist);
+        profile_image = findViewById(R.id.profile_image);
 
         btn_regist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,15 +69,46 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     private void Regist(){
-        loading.setVisibility(View.VISIBLE);
-        btn_regist.setVisibility(View.GONE);
 
-        final String name = this.name.getText().toString().trim();
-        final String email = this.email.getText().toString().trim();
-        final String password = this.password.getText().toString().trim();
+        final String name = this.ed_name.getText().toString().trim();
+        final String email = this.ed_email.getText().toString().trim();
+        final String password = this.ed_password.getText().toString().trim();
+        final String c_password = this.ed_c_password.getText().toString().trim();
+
+        if(TextUtils.isEmpty(name)){
+            ed_name.setError("Please Input Name");
+            ed_name.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(email)){
+            ed_email.setError("Please Input Email");
+            ed_email.requestFocus();
+            return;
+        }
+
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            ed_email.setError("Enter a valid Email");
+            ed_email.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(password)){
+            ed_password.setError("Please Input Password");
+            ed_password.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(c_password)){
+            ed_c_password.setError("Please Input Password");
+            ed_c_password.requestFocus();
+            return;
+        }
+
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_REGIST,
                 new Response.Listener<String>() {
@@ -71,6 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String success = jsonObject.getString("success"); //di samakan dengan di php
+
 
                             if (success.equals("1")){
                                 Toast.makeText(RegisterActivity.this, "REGISTER SUKSES!", Toast.LENGTH_SHORT).show();

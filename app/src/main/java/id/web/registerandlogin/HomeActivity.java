@@ -51,9 +51,9 @@ public class HomeActivity extends AppCompatActivity {
     private Button btn_logout, btn_photo_upload;
     SessionManager sessionManager;
     String getId;
-    private static String URL_READ = "http://192.168.10.125/login/read_detail.php";
-    private static String URL_EDIT = "http://192.168.10.125/login/edit_detail.php";
-    private static String URL_UPLOAD = "http://192.168.10.125/login/upload.php";
+    private static String URL_READ = "http://206.189.6.93:8087/oki/read_detail.php";
+    private static String URL_EDIT = "http://206.189.6.93:8087/oki/edit_detail.php";
+    private static String URL_UPLOAD = "http://206.189.6.93:8087/oki/upload.php";
     private Menu action;
     private Bitmap bitmap;
     CircleImageView profile_image;
@@ -67,8 +67,8 @@ public class HomeActivity extends AppCompatActivity {
         sessionManager.checkLogin();
 
 
-        name = findViewById(R.id.name);
-        email = findViewById(R.id.email);
+        name = findViewById(R.id.ed_name);
+        email = findViewById(R.id.ed_email);
         btn_logout = findViewById(R.id.btn_logout);
         btn_photo_upload = findViewById(R.id.btn_photo);
         profile_image = findViewById(R.id.profile_image);
@@ -140,7 +140,12 @@ public class HomeActivity extends AppCompatActivity {
 
                                     name.setText(strName);
                                     email.setText(strEmail);
-                                    Picasso.get().load(strImage).into(profile_image);
+                                    //Picasso.get().load(strImage).into(profile_image);
+                                    if (strImage.isEmpty()) {
+                                        profile_image.setImageResource(R.drawable.logo);
+                                    } else{
+                                        Picasso.get().load(strImage).into(profile_image);
+                                    }
                                 }
                             }
                         } catch (JSONException e) {
@@ -325,11 +330,13 @@ public class HomeActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             String success = jsonObject.getString("success");
                             if(success.equals("1")){
+                                //Log.e("h", response );
                                 Toast.makeText(HomeActivity.this, "Succes!", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             progressDialog.dismiss();
+                            //Log.e("h", response );
                             Toast.makeText(HomeActivity.this, "Try Again!"+e.toString(), Toast.LENGTH_SHORT).show();
                         }
 
@@ -339,6 +346,7 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
+
                         Toast.makeText(HomeActivity.this, "Try Again!"+error.toString(), Toast.LENGTH_SHORT).show();
 
                     }
